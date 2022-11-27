@@ -1,3 +1,5 @@
+
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RepositryPattern.Core.interfaces;
 using RepositryPattern.EF.Data;
@@ -11,11 +13,19 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+
+
+
 builder.Services.AddDbContext<ApplicationDBContext>(option =>
 
 option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
 b=>b.MigrationsAssembly(typeof(ApplicationDBContext).Assembly.FullName)
 ));
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDBContext>().AddDefaultTokenProviders();
+builder.Services.ConfigureApplicationCookie(option => option.LoginPath = "/UserAuthentcation/Login");
+
 //builder.Services.AddTransient(typeof(IBaseRepositry<>),typeof(BaseRepositry<>));
 builder.Services.AddTransient<IUnitOfWork,UnitOfWork>();
 var app = builder.Build();
@@ -32,7 +42,7 @@ app.UseCors(c => c.WithOrigins("http://localhost:4200")
 .SetIsOriginAllowed(origin => true)
 .AllowCredentials());
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

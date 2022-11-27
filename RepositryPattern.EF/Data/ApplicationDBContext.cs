@@ -7,7 +7,7 @@ using RepositryPattern.Core.models;
 
 namespace RepositryPattern.EF.Data
 {
-    public class ApplicationDBContext: IdentityDbContext<IdentityUser, IdentityRole, string>
+    public class ApplicationDBContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDBContext(DbContextOptions<ApplicationDBContext> options) : base(options)
         {

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RepositryPattern.Core.Dtos;
 using RepositryPattern.Core.interfaces;
@@ -11,6 +12,7 @@ namespace FoodShop.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IUnitOfWork _unitofwork;
+
         public ProductController(IUnitOfWork unitofwork)
         {
             _unitofwork = unitofwork;
@@ -58,6 +60,7 @@ namespace FoodShop.Controllers
         {
 
             if (product == null) { return BadRequest(); }
+            
 
             if (ModelState.IsValid)
             {
